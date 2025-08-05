@@ -69,3 +69,30 @@ document.getElementById("post").addEventListener('click',function(){
   .catch(error => console.error("Error uploading data: "+error))
 });
 
+document.getElementById("update").addEventListener('click',function(){
+    event.preventDefault();
+    const xhr = new XMLHttpRequest();
+    const postId = document.getElementById("postId").value;
+    const post =JSON.stringify({
+        userId: document.getElementById("userId").value,
+        id: postId,
+        title: document.getElementById("userTitle").value,
+        body: document.getElementById("userContent").value
+    });
+    xhr.open('PUT',`https://jsonplaceholder.typicode.com/posts/${postId}`,true);
+
+    xhr.onreadystatechange = function(){
+        if (xhr.readyState===4){
+            if(xhr.status===200){
+                const data = JSON.parse(xhr.responseText);
+                console.log(data);
+                display(data);
+            } else{
+                console.error('Error fetching data: ',xhr.statusText);
+            }
+        }
+        
+    };
+    xhr.setRequestHeader('Content-Type','application/json');
+    xhr.send(post);
+})
