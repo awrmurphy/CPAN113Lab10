@@ -44,3 +44,28 @@ document.getElementById("xhr").addEventListener('click',function(){
     };
     xhr.send();
 });
+
+document.getElementById("post").addEventListener('click',function(){
+    event.preventDefault();
+    fetch("https://jsonplaceholder.typicode.com/posts",{
+        method: "POST",
+
+        body: JSON.stringify({
+            userId: document.getElementById("userId").value,
+            id: document.getElementById("postId").value,
+            title: document.getElementById("userTitle").value ,
+            body: document.getElementById("userContent").value
+        }),
+        headers:{
+            'Content-Type': 'application/json; charset=UTF-8'
+        }
+
+    }    )
+    .then((response) => response.json())
+  .then((json) =>{
+     console.log(json)
+     alert("Post Successful!")
+  })
+  .catch(error => console.error("Error uploading data: "+error))
+});
+
